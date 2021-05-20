@@ -1,12 +1,114 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta charset="utf-8">
+    <title>图片局部放大</title>
+    <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .box {
+            width: 350px;
+            height: 262px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            position: relative;
+        }
+        
+        .big {
+            width: 400px;
+            height: 400px;
+            position: absolute;
+            top: 0;
+            left: 360px;
+            border: 1px solid #ccc;
+            overflow: hidden;
+            display: none;
+        }
+        
+        .mask {
+            width: 175px;
+            height: 175px;
+            background: rgba(255, 255, 255, 0.2);
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: move;
+            display: none;
+        }
+        
+        .small {
+            position: relative;
+        }
+        
+        .box img {
+            vertical-align: top;
+        }
+        
+        #bigBox img {
+            position: absolute;
+        }
+    </style>
 </head>
+
 <body>
-    赵高恒
+    <div class="box" id="box">
+        <div id="smallBox" class="small ">
+            <img src="http://www.jq22.com/demo/jQueryMagnifier201702271056/images/2.png" / width="350">
+            <div id="mask" class="mask"></div>
+        </div>
+        <div id="bigBox" class="big">
+            <img src="http://www.jq22.com/demo/jQueryMagnifier201702271056/images/2.png" alt="" id="bigPic">
+        </div>
+    </div>
+    
+     <script>
+        $("#smallBox").mouseover(function() {
+            $("#bigBox").css("display", "block");
+            $("#mask").css("display", "block");
+        }).mouseout(function() {
+            $("#bigBox").css("display", "none");
+            $("#mask").css("display", "none");
+        }).mousemove(function(event) {
+
+            var pageX = event.clientX + $(document).scrollLeft();
+            var pageY = event.clientY + $(document).scrollTop();
+            var targetX = pageX - $("#box").offset().left - $("#mask").width() / 2;
+            var targetY = pageY - $("#box").offset().left - $("#mask").height() / 2
+
+            if (targetX < 0) {
+                targetX = 0;
+            }
+            if (targetY < 0) {
+                targetY = 0;
+            }
+
+            if (targetX > $("#smallBox").offset().width - $("#mask").width()) {
+                targetX = $("#smallBox").offset().width - $("#mask").width()
+            }
+            if (targetY > $("#smallBox").offset().height - $("#mask").height()) {
+                targetY = $("#smallBox").offset().height - $("#mask").height()
+            }
+            $("#mask").css({
+                left: targetX + "px",
+                top: targetY + "px"
+            })
+
+            var bigToMove = $("#bigPic").width() - $("#bigBox").width();
+            var maskToMove = $("#smallBox").width() - $("#mask").width();
+            var rate = bigToMove / maskToMove;
+            $("#bigPic").css({
+                left: -rate * targetX + "px",
+                top: -rate * targetY + "px"
+            })
+        })
+    </script>
+
 </body>
+
 </html>
