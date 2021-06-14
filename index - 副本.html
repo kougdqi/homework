@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    console.log("1111")
+    console.assert(true, "不输出")
+    // 断言
+    // console.assert(false, "前面为假则输出错误")
+    // 断言
+    //不 输出
+    // console.assert(2 > 3, "前面为假则输出错误")
+
+
+
+    function sum(...arr) {
+        return arr.reduce((pre, cur) => pre + cur)
+    }
+    console.assert(typeof sum == 'function', "sum必须是函数")
+    console.assert(sum(1, 2, 3) === 6, "函数验证有问题")
+    console.log("恭喜您写的函数通过了")
+
+    var zyStorage={
+	  session:function(a,b){
+	  	if(a==null||b==null){
+	  		return zyStorage[a];
+	  	}else{
+	  		
+	  	  zyStorage[a]=b;
+	  	  
+	  	}
+	  },
+	 
+		removeSession:function(c){
+				zyStorage[c]=null;
+			}
+}
+console.assert(typeof zyStorage == 'object','zyStorage不是一个对象')
+console.assert(typeof zyStorage.session == 'function','session方法不存在')
+console.assert(typeof zyStorage.removeSession == 'function','removeSession方法不存在')
+
+zyStorage.session('name','张三')
+var v = zyStorage.session('name')
+console.assert(v == '张三','session方法保存或者获取sessionStorage失败')
+
+zyStorage.session('person',{name:"李四",age:18})
+var p = zyStorage.session('person')
+console.log(p)
+console.assert(p.name == '李四','session方法保存或者获取sessionStorage失败')
+
+zyStorage.removeSession('name')
+var v = zyStorage.session('name')
+console.assert(v == null,'remove方法删除sessionStorage失败')
+</script>
